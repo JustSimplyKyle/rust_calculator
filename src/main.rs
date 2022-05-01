@@ -1,4 +1,4 @@
-use rust_calculator::{calculate, contain_from_pos, extract_numbers};
+use rust_calculator::{calculate, extract_numbers};
 
 fn main() {
     //get input line

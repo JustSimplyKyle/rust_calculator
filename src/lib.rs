@@ -3,6 +3,7 @@ use std::f64::consts::PI;
 use std::fmt::Error;
 
 use statrs::function::factorial::factorial;
+const FUNCTION_NAMES: [&str;14] = ["sin","cos","tan","asin","acos","atan","log","ln","sqrt","cbrt","abs","ceil","floor","round"];
 
 fn parenthesis(operator_array: &mut String, num_array: &mut Vec<f64>) {
     loop {
@@ -42,7 +43,7 @@ fn parenthesis(operator_array: &mut String, num_array: &mut Vec<f64>) {
     }
 }
 
-pub fn extract_numbers(mut input: String) -> Result<(Vec<f64>, String), Box<dyn error::Error>> {
+pub fn extract_numbers(input: String) -> Result<(Vec<f64>, String), Box<dyn error::Error>> {
     let mut num_array: Vec<f64> = Vec::new();
     let mut operator_array = String::new();
     let mut num_string = String::new();
@@ -78,34 +79,11 @@ pub fn extract_numbers(mut input: String) -> Result<(Vec<f64>, String), Box<dyn 
 
 pub fn calculate(operator_array: &mut String, num_array: &mut Vec<f64>) {
     let mut found_function = false;
-    if operator_array.contains("sin") {
-        found_function = true;
-    } else if operator_array.contains("cos") {
-        found_function = true;
-    } else if operator_array.contains("tan") {
-        found_function = true;
-    } else if operator_array.contains("asin") {
-        found_function = true;
-    } else if operator_array.contains("acos") {
-        found_function = true;
-    } else if operator_array.contains("atan") {
-        found_function = true;
-    } else if operator_array.contains("log") {
-        found_function = true;
-    } else if operator_array.contains("ln") {
-        found_function = true;
-    } else if operator_array.contains("sqrt") {
-        found_function = true;
-    } else if operator_array.contains("cbrt") {
-        found_function = true;
-    } else if operator_array.contains("abs") {
-        found_function = true;
-    } else if operator_array.contains("ceil") {
-        found_function = true;
-    } else if operator_array.contains("floor") {
-        found_function = true;
-    } else if operator_array.contains("round") {
-        found_function = true;
+    for i in FUNCTION_NAMES.iter() {
+        if operator_array.contains(i) {
+            found_function = true;
+            break;
+        }
     }
     if found_function == false {
         parenthesis(operator_array, num_array);
@@ -185,7 +163,6 @@ pub fn contain_from_pos(u: usize, operator_array: &String, word: &str) -> bool {
 }
 
 pub fn evalulate_function(operator_array: &mut String, num_array: &mut Vec<f64>) {
-    let mut i = 0;
     loop {
         if !(operator_array.contains("(") || operator_array.contains(")")) {
             break;
@@ -194,59 +171,12 @@ pub fn evalulate_function(operator_array: &mut String, num_array: &mut Vec<f64>)
         while i < operator_array.len() {
             if operator_array.chars().nth(i).unwrap() == '(' {
                 let mut par_minus_size = 0;
-                let mut total_word_length=0;
                 let mut function_name = String::new();
-
-                if contain_from_pos(i, operator_array, "asin") {
-                    par_minus_size=4;
-                    function_name = "asin".to_string();
-                } else if contain_from_pos(i, operator_array, "acos") {
-                    par_minus_size=4;
-                    function_name = "acos".to_string();
-                } else if contain_from_pos(i, operator_array, "tan") {
-                    par_minus_size=3;
-                    function_name = "tan".to_string();
-                } else if contain_from_pos(i, operator_array, "sin") {
-                    par_minus_size=3;
-                    function_name = "sin".to_string();
-                } else if contain_from_pos(i, operator_array, "cos") {
-                    par_minus_size=3;
-                    function_name = "cos".to_string();
-                } else if contain_from_pos(i, operator_array, "sqrt") {
-                    par_minus_size=4;
-                    function_name = "sqrt".to_string();
-                } else if contain_from_pos(i, operator_array, "atan") {
-                    par_minus_size=4;
-                    function_name = "atan".to_string();
-                } else if contain_from_pos(i, operator_array, "log") {
-                    par_minus_size=3;
-                    function_name = "log".to_string();
-                } else if contain_from_pos(i, operator_array, "ln") {
-                    par_minus_size=2;
-                    function_name = "ln".to_string();
-                } else if contain_from_pos(i, operator_array, "sqrt") {
-                    par_minus_size=4;
-                    function_name = "sqrt".to_string();
-                } else if contain_from_pos(i, operator_array, "abs"){
-                    par_minus_size=3;
-                    function_name = "abs".to_string();
-                } else if contain_from_pos(i, operator_array, "cbrt"){
-                    par_minus_size=4;
-                    function_name = "cbrt".to_string();
-                } else if contain_from_pos(i, operator_array, "ceil"){
-                    par_minus_size=4;
-                    function_name = "ceil".to_string();
-                } else if contain_from_pos(i, operator_array, "floor"){
-                    par_minus_size=5;
-                    function_name = "floor".to_string();
-                } else if contain_from_pos(i, operator_array, "round") {
-                    par_minus_size = 5;
-                    function_name = "round".to_string();
-                }
-
-                for i in operator_array.chars(){
-                    if i.is_alphanumeric() {
-                        total_word_length+=1;
+                for j in FUNCTION_NAMES.iter() {
+                    if contain_from_pos(i, operator_array, j) {
+                        par_minus_size=j.len();
+                        function_name = j.to_string();
+                        break;
                     }
                 }
                 let mut j = i + 1;
