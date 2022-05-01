@@ -3,8 +3,7 @@ use std::f64::consts::PI;
 use std::fmt::Error;
 
 use statrs::function::factorial::factorial;
-const FUNCTION_NAMES: [&str;14] = ["sin","cos","tan","asin","acos","atan","log","ln","sqrt","cbrt","abs","ceil","floor","round"];
-
+const FUNCTION_NAMES: [&str;22] = ["sin", "cos", "tan", "asin", "acos", "atan", "sinh", "cosh", "tanh", "asinh", "acosh", "atanh", "exp", "ln", "log", "log10", "sqrt", "cbrt", "ceil", "floor", "round", "abs"];
 fn parenthesis(operator_array: &mut String, num_array: &mut Vec<f64>) {
     loop {
         if !(operator_array.contains("(") || operator_array.contains(")")) {
@@ -201,34 +200,30 @@ pub fn evalulate_function(operator_array: &mut String, num_array: &mut Vec<f64>)
                 num_array.drain(i - par_minus_size..not_parenthesis_count + 1);
                 operator_array.drain(i - par_minus_size..j);
                 num_array.insert(i - par_minus_size, sub_num_array[0]);
-                if function_name == "sin" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].sin();
-                } else if function_name == "cos" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].sin();
-                } else if function_name == "tan" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].tan();
-                } else if function_name == "asin" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].asin();
-                } else if function_name == "acos" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].acos();
-                } else if function_name == "sqrt" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].sqrt();
-                } else if function_name == "atan" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].atan();
-                } else if function_name == "log" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].ln();
-                } else if function_name == "ln" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].ln();
-                } else if function_name == "abs" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].abs();
-                } else if function_name == "round" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].round();
-                } else if function_name == "ceil" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].ceil();
-                } else if function_name == "floor" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].floor();
-                } else if function_name == "cbrt" {
-                    num_array[i - par_minus_size] = num_array[i - par_minus_size].cbrt();
+                    match function_name.as_str() {
+                        "sin"  => num_array[i - par_minus_size] = num_array[i - par_minus_size].sin(),
+                        "cos"  => num_array[i - par_minus_size] = num_array[i - par_minus_size].cos(),
+                        "tan"  => num_array[i - par_minus_size] = num_array[i - par_minus_size].tan(),
+                        "asin" => num_array[i - par_minus_size] = num_array[i - par_minus_size].asin(),
+                        "acos" => num_array[i - par_minus_size] = num_array[i - par_minus_size].acos(),
+                        "atan" => num_array[i - par_minus_size] = num_array[i - par_minus_size].atan(),
+                        "sinh" => num_array[i - par_minus_size] = num_array[i - par_minus_size].sinh(),
+                        "cosh" => num_array[i - par_minus_size] = num_array[i - par_minus_size].cosh(),
+                        "tanh" => num_array[i - par_minus_size] = num_array[i - par_minus_size].tanh(),
+                        "asinh" => num_array[i - par_minus_size] = num_array[i - par_minus_size].asinh(),
+                        "acosh" => num_array[i - par_minus_size] = num_array[i - par_minus_size].acosh(),
+                        "atanh" => num_array[i - par_minus_size] = num_array[i - par_minus_size].atanh(),
+                        "exp"  => num_array[i - par_minus_size] = num_array[i - par_minus_size].exp(),
+                        "ln"   => num_array[i - par_minus_size] = num_array[i - par_minus_size].ln(),
+                        "log"  => num_array[i - par_minus_size] = num_array[i - par_minus_size].log(10.0),
+                        "log10" => num_array[i - par_minus_size] = num_array[i - par_minus_size].log10(),
+                        "sqrt" => num_array[i - par_minus_size] = num_array[i - par_minus_size].sqrt(),
+                        "cbrt" => num_array[i - par_minus_size] = num_array[i - par_minus_size].cbrt(),
+                        "ceil" => num_array[i - par_minus_size] = num_array[i - par_minus_size].ceil(),
+                        "floor" => num_array[i - par_minus_size] = num_array[i - par_minus_size].floor(),
+                        "round" => num_array[i - par_minus_size] = num_array[i - par_minus_size].round(),
+                        "abs"  => num_array[i - par_minus_size] = num_array[i - par_minus_size].abs(),
+                        _ => {}
                 }
             } else { i += 1; }
         }
